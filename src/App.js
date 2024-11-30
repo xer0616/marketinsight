@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useEffect, useState } from 'react';
-import { List, Pagination, Input, Table, Tag, Card, Row, Col, Checkbox, Button, Statistic, Avatar, Divider } from 'antd';
+import { List, Pagination, Input, Table, Tag, Card, Row, Col, Checkbox, Button, Statistic, Avatar, Divider, Tooltip } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line } from 'recharts';
 import { SoundOutlined, CloseOutlined, FlagOutlined, StockOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -298,30 +298,41 @@ function App() {
                             <List.Item
                                 style={{ marginBottom: '12px' }}
                                 actions={[
-                                    <Button
-                                        type="primary"
-                                        icon={<SoundOutlined />}
-                                        onClick={() => readOutLoud(item.statement)}
-                                    />,
-                                    <Button
-                                        icon={<CloseOutlined />}
-                                        onClick={() => stopReading()}
-                                    />,
-                                    <Button
-                                        type={item.flagged ? "danger" : "default"}
-                                        icon={<FlagOutlined />}
-                                        onClick={() => {
-                                            item.flagged = !item.flagged;
-                                            setData([...data]);
-                                        }}
-                                    />,
-                                    <Button
-                                        type="danger"
-                                        icon={<CloseOutlined />}
-                                        onClick={() => handleDelete(item)}
-                                    >
-                                        Delete
-                                    </Button>
+                                    <Tooltip title="Read the statement aloud">
+                                        <Button
+                                            type="primary"
+                                            icon={<SoundOutlined />}
+                                            onClick={() => readOutLoud(item.statement)}
+                                        />
+                                    </Tooltip>,
+                        
+                                    <Tooltip title="Stop the text-to-speech playback">
+                                        <Button
+                                            icon={<CloseOutlined />}
+                                            onClick={() => stopReading()}
+                                        />
+                                    </Tooltip>,
+                        
+                                    <Tooltip title={item.flagged ? "Unflag this statement" : "Flag this statement"}>
+                                        <Button
+                                            type={item.flagged ? "danger" : "default"}
+                                            icon={<FlagOutlined />}
+                                            onClick={() => {
+                                                item.flagged = !item.flagged;
+                                                setData([...data]);
+                                            }}
+                                        />
+                                    </Tooltip>,
+                        
+                                    <Tooltip title="Delete this statement">
+                                        <Button
+                                            type="danger"
+                                            icon={<CloseOutlined />}
+                                            onClick={() => handleDelete(item)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Tooltip>
                                 ]}
                             >
                                     <Card
