@@ -1,9 +1,8 @@
 // src/App.js
-import React, { useEffect, useState } from 'react';
-import { List, Pagination, Input, Table, Tag, Card, Row, Col, Checkbox, Button, Statistic, Avatar, Divider, Tooltip } from 'antd';
+import React, { useEffect, useState, useCallback } from 'react';
+import { List, Pagination, Input, Tag, Card, Row, Col, Checkbox, Button, Statistic, Avatar, Tooltip } from 'antd';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, CartesianGrid, LineChart, Line } from 'recharts';
 import { SoundOutlined, CloseOutlined, FlagOutlined, StockOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import 'antd/dist/reset.css'; // For Ant Design styling
 import './App.css'; // Optional: For custom styles
 
@@ -37,7 +36,7 @@ const stopWords = new Set([
 const cleanKeywords = (keywords) => {
     const outKeywords = keywords
         .map(keyword => keyword.toLowerCase().trim())
-        .map(keyword => keyword.replace(/[.,\/#!$%^&*;:{}=\-_`~()]/g, ''))
+        .map(keyword => keyword.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, ''))
         .filter(keyword => keyword && !stopWords.has(keyword) && !/^\d+$/.test(keyword) && keyword.length > 3);
     return outKeywords;
 };
@@ -76,7 +75,7 @@ function App() {
     }, []);
 
     // Function to filter data based on search criteria
-    const getFilteredData = () => {
+    const getFilteredData =  useCallback(() => {
         return data.filter(item => {
             const matchesSearch = item.statement ? item.statement.toLowerCase().includes(searchTerm.toLowerCase()) : 'Empty';
             const matchesFlagged = !showFlaggedOnly || item.flagged;
@@ -85,10 +84,10 @@ function App() {
             const matchesLinked = !showLinkedOnly || item.linked.length > 0 ;
             return matchesSearch && matchesFlagged && matchesSentiment && matchesProductCategory && matchesLinked;
         });
-    };
+    }, [data, searchTerm, showFlaggedOnly, showLinkedOnly, showNegativeSentimentOnly, showProductCategoryOnly]);
 
     // Function to handle the Delete key press
-    const handleDeleteKeyPress = (event) => {
+    const handleDeleteKeyPress = useCallback((event) => {
         if (event.key === 'Delete') {
             const filteredData = getFilteredData();
             const currentIndex = (currentPage - 1) * pageSize;
@@ -118,7 +117,7 @@ function App() {
                 }
             }
         }
-    };
+    },[currentPage, data, getFilteredData, pageSize, searchTerm]);
 
     useEffect(() => {
         // Attach the event listener for the "Delete" key
@@ -127,7 +126,7 @@ function App() {
             // Clean up the event listener
             window.removeEventListener('keydown', handleDeleteKeyPress);
         };
-    }, [currentPage, pageSize, data, searchTerm, showFlaggedOnly, showNegativeSentimentOnly]);
+    }, [currentPage, pageSize, data, searchTerm, showFlaggedOnly, showNegativeSentimentOnly, handleDeleteKeyPress]);
 
     // Update search term on key press
     const handleSearchKeyUp = (event) => {
@@ -155,7 +154,7 @@ function App() {
 
     const paginatedData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-    const handleScroll = (event) => {
+    const handleScroll = useCallback((event) => {
         const scrollTop = window.scrollY;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
@@ -170,14 +169,14 @@ function App() {
                 setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
             }
         }
-    };
+    }, [currentPage, filteredData.length, pageSize]);
 
     useEffect(() => {
         window.addEventListener('wheel', handleScroll);
         return () => {
             window.removeEventListener('wheel', handleScroll);
         };
-    }, [currentPage, filteredData.length, pageSize]);
+    }, [currentPage, filteredData.length, pageSize, handleScroll]);
 
     const totalStatements = data.length;
 
@@ -411,52 +410,6 @@ function App() {
                     />
                 </Col>
             </Row>
-        </div>
-    );
-    // Define columns for the table visualization
-    const columns = [
-        {
-            title: 'Company',
-            dataIndex: 'company',
-            key: 'company',
-        },
-        {
-            title: 'Statement',
-            dataIndex: 'statement',
-            key: 'statement',
-        },
-        {
-            title: 'Keywords',
-            dataIndex: 'keywords',
-            key: 'keywords',
-            render: keywords => (
-                <div>
-                    {keywords.map(keyword => (
-                        <Tag color="blue" key={keyword}>
-                            {keyword}
-                        </Tag>
-                    ))}
-                </div>
-            ),
-        },
-    ];
-
-    // Prepare data for the table
-    const tableData = filteredData.map((item, index) => ({
-        key: index, // Unique key for each row
-        company: item.companyName || 'N/A', // Adjust field based on your data
-        statement: item.statement,
-        keywords: item.keywords,
-    }));
-
-    return (
-        <div className="App">
-            {/* Existing components like List, Pagination, etc. */}
-
-            <Divider orientation="left">Company and Keywords Table</Divider>
-            <Table columns={columns} dataSource={tableData} pagination={{ pageSize: 5 }} />
-
-            {/* Existing components, event handlers, etc. */}
         </div>
     );
 }
