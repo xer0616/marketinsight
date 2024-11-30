@@ -376,7 +376,7 @@ function App() {
                                                 prefix={<StockOutlined />}
                                             />
                                             <div style={{ color:'grey', fontSize: '16px', fontWeight: 'bold', marginBottom: '4px' }}>
-                                                {item.volume}
+                                                Volume : {item.volume}
                                             </div>
                                             <div style={{ color:'blue', fontSize: '14px', marginBottom: '4px' }}>
                                                 {item.introduction}
