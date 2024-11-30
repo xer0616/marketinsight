@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useEffect, useState } from 'react';
 import { List, Pagination, Input, Table, Tag, Card, Row, Col, Checkbox, Button, Statistic, Avatar, Divider, Tooltip } from 'antd';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, CartesianGrid, LineChart, Line } from 'recharts';
 import { SoundOutlined, CloseOutlined, FlagOutlined, StockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/reset.css'; // For Ant Design styling
@@ -216,7 +216,7 @@ function App() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
-                        <Tooltip />
+                        <RechartsTooltip/>
                         <Bar dataKey="value" fill="#82ca9d" />
                     </BarChart>
                     <Checkbox
@@ -400,7 +400,7 @@ function App() {
                                             >
                                                 <XAxis dataKey="date" hide />
                                                 <YAxis hide />
-                                                <Tooltip />
+                                                <RechartsTooltip/>
                                                 <Line type="monotone" dataKey="value" stroke="#8884d8" />
                                             </LineChart>
                                         </Col>
