@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/marketinsight/static/css/main.3aeb6b25.css",
+    "main.js": "/marketinsight/static/js/main.43cf7cd1.js",
+    "index.html": "/marketinsight/index.html",
+    "main.3aeb6b25.css.map": "/marketinsight/static/css/main.3aeb6b25.css.map",
+    "main.43cf7cd1.js.map": "/marketinsight/static/js/main.43cf7cd1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3aeb6b25.css",
+    "static/js/main.43cf7cd1.js"
+  ]
+}
