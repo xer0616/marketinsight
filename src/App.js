@@ -7,6 +7,9 @@ import axios from 'axios';
 import 'antd/dist/reset.css'; // For Ant Design styling
 import './App.css'; // Optional: For custom styles
 
+// Import local data
+import jsonData from './data/data.json';
+
 const stopWords = new Set([
     "i", "me", "my", "myself", "we", "our", "ours", "ourselves",
     "you", "your", "yours", "yourself", "yourselves", "he", "him",
@@ -62,20 +65,16 @@ function App() {
     const [showLinkedOnly, setShowLinkedOnly] = useState(false);
 
     useEffect(() => {
-        axios.get('http://10.32.2.120:8080/api/data')
-            .then(response => {
-                const cleanedData = response.data.map(item => ({
-                    ...item,
-                    keywords: cleanKeywords(item.keywords),
-                    flagged: false
-                }));
-                cleanedData.sort((a, b) => b.volume - a.volume);
-                setData(cleanedData);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        // Load data from the local file
+        const cleanedData = jsonData.map((item) => ({
+            ...item,
+            keywords: cleanKeywords(item.keywords),
+            flagged: false,
+        }));
+        cleanedData.sort((a, b) => b.volume - a.volume);
+        setData(cleanedData);
     }, []);
+
     // Function to filter data based on search criteria
     const getFilteredData = () => {
         return data.filter(item => {
