@@ -62,6 +62,7 @@ function App() {
     const [hideStatementsWithoutKeywords, setHideStatementsWithoutKeywords] = useState(false);
     const [showProductCategoryOnly, setShowProductCategoryOnly] = useState(false);
     const [showLinkedOnly, setShowLinkedOnly] = useState(false);
+    const [showTodayOnly, setShowTodayOnly] = useState(false);
 
     useEffect(() => {
         // Load data from the local file
@@ -74,6 +75,9 @@ function App() {
         setData(cleanedData);
     }, []);
 
+    // Get today's date in 'YYYY-MM-DD' format
+    const today = new Date(new Date().toLocaleDateString('en-US')).toISOString().split('T')[0];
+
     // Function to filter data based on search criteria
     const getFilteredData =  useCallback(() => {
         return data.filter(item => {
@@ -82,7 +86,8 @@ function App() {
             const matchesSentiment = !showNegativeSentimentOnly || item.sentiment === 'negative';
             const matchesProductCategory = !showProductCategoryOnly || item.category === 'product';
             const matchesLinked = !showLinkedOnly || item.linked.length > 0 ;
-            return matchesSearch && matchesFlagged && matchesSentiment && matchesProductCategory && matchesLinked;
+            const matchesToday = !showTodayOnly || item.update === today ;
+            return matchesSearch && matchesFlagged && matchesSentiment && matchesProductCategory && matchesLinked && matchesToday;
         });
     }, [data, searchTerm, showFlaggedOnly, showLinkedOnly, showNegativeSentimentOnly, showProductCategoryOnly]);
 
@@ -277,6 +282,16 @@ function App() {
                         style={{ marginBottom: '20px' }}
                     >
                         Show linked Only
+                    </Checkbox>
+                    <Checkbox
+                        checked={showTodayOnly}
+                        onChange={(e) => {
+                            setShowTodayOnly(e.target.checked);
+                            setCurrentPage(1);
+                        }}
+                        style={{ marginBottom: '20px' }}
+                    >
+                        Show Today Only
                     </Checkbox>
                 </Col>
 
