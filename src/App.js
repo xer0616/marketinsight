@@ -89,7 +89,7 @@ function App() {
             const matchesToday = !showTodayOnly || item.update === today ;
             return matchesSearch && matchesFlagged && matchesSentiment && matchesProductCategory && matchesLinked && matchesToday;
         });
-    }, [data, searchTerm, showFlaggedOnly, showLinkedOnly, showNegativeSentimentOnly, showProductCategoryOnly]);
+    }, [data, searchTerm, today, showTodayOnly, showFlaggedOnly, showLinkedOnly, showNegativeSentimentOnly, showProductCategoryOnly]);
 
     // Function to handle the Delete key press
     const handleDeleteKeyPress = useCallback((event) => {
