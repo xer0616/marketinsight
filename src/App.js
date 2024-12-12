@@ -350,7 +350,7 @@ function App() {
                                 ]}
                             >
                                     <Card
-                                        title={<Avatar style={{ backgroundColor: '#87d068' }}>{item.symbol}</Avatar>}
+                                        title={<Avatar style={{ backgroundColor: item.sentiment === 'negative' ? 'red' : 'green' }}>{item.symbol}</Avatar>}
                                         extra={
                                             <a href={`https://www.google.ca/search?q=${item.company.replace(' ', '+')}+stock`}>
                                                 {item.company}
@@ -377,11 +377,6 @@ function App() {
                                                   <span style={{ color: 'blue', fontSize: '15px', marginBottom: '4px' }}>{link.split(':')[1]}</span><br/>
                                                 </span>
                                               ))}
-                                            </div>
-                                            <div style={{ marginBottom: '12px' }}>
-                                                {item.sentiment === 'positive' && <Tag color="green">Positive</Tag>}
-                                                {item.sentiment === 'neutral' && <Tag color="grey">Neutral</Tag>}
-                                                {item.sentiment === 'negative' && <Tag color="red">Negative</Tag>}
                                             </div>
                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
                                                 {item.keywords.map(keyword => (
