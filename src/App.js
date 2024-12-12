@@ -350,7 +350,7 @@ function App() {
                                 ]}
                             >
                                     <Card
-                                        title={<Avatar style={{ backgroundColor: item.sentiment === 'negative' ? 'red' : 'green' }}>{item.symbol}</Avatar>}
+                                        title={<Avatar style={{ backgroundColor: item.sentiment === 'negative' ? 'red' : '#87d068' }}>{item.symbol}</Avatar>}
                                         extra={
                                             <a href={`https://www.google.ca/search?q=${item.company.replace(' ', '+')}+stock`}>
                                                 {item.company}
