@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/marketinsight/static/css/main.2aa60fb4.css",
-    "main.js": "/marketinsight/static/js/main.ba0e5152.js",
+    "main.js": "/marketinsight/static/js/main.5c89e02a.js",
     "static/js/488.462d725c.chunk.js": "/marketinsight/static/js/488.462d725c.chunk.js",
     "index.html": "/marketinsight/index.html",
     "main.2aa60fb4.css.map": "/marketinsight/static/css/main.2aa60fb4.css.map",
-    "main.ba0e5152.js.map": "/marketinsight/static/js/main.ba0e5152.js.map",
+    "main.5c89e02a.js.map": "/marketinsight/static/js/main.5c89e02a.js.map",
     "488.462d725c.chunk.js.map": "/marketinsight/static/js/488.462d725c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2aa60fb4.css",
-    "static/js/main.ba0e5152.js"
+    "static/js/main.5c89e02a.js"
   ]
 }
